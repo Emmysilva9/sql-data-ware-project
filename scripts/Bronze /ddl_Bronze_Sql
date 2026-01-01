@@ -27,12 +27,12 @@ sls_price int
   If OBJECT_ID ( 'Bronze.crm_cust_info','U') is not Null
   Drop Table  Bronze.crm_cust_info
   Go
-  Create Table Bronze.crm_cust_info 
+  Create Table Bronze.crm_cust_info (
   cst_ID                   int,
   cst_key                    Nvarchar(50),
   cst_firstName               Nvarchar(50),
   cst_lastName                Nvarchar(50),
-   cst_marital_statue          Nvarchar(50),
+   cst_marital_status          Nvarchar(50),
   Cst_gndr                    Nvarchar(50),
    cst_Create_date             Date 
 
@@ -76,5 +76,7 @@ Go
     id                    nvarchar(50),
     cat                   nvarchar(50),
     subcat                nvarchar(50),
-    maintance             nvarchar(50)
+    maintenace             nvarchar(50)
     )Go
+
+
