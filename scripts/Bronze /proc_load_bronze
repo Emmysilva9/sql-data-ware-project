@@ -1,0 +1,137 @@
+/* 
+=========================================================================================
+Store proceedure : Load Bronze Layer ( source -> Bronze) 
+=========================================================================================
+Script Purpose : 
+       This Store Proceedure loads data into the 'bronze' schema from from CSV files .
+       It provides the following actions : 
+       - Truncate the bronze table before loading data .
+       - Uses the 'Bulk Insert' Command load data from CSV files to bronze table .
+Parameters :
+  None . 
+This Store Proceedure does not accept any parameters or return values .
+
+Usage Example :
+  EXECE bronze.load_bronze;
+=================================================================================================
+    */        
+              Create or Alter procedure Bronze.load_bronze As 
+            Begin 
+              Declare @Start_Time DateTime , @End_Time DateTime,@Batch_Start_Time DateTime,@Batch_End_Time DateTime
+              Begin Try     
+                 Print '=============================================='
+                 Print 'Loading Bronze Layer'
+                 Print '=============================================='
+                 Print '----------------------------------------------'
+                 Print'Loading CRM Tables'
+                 Print '----------------------------------------------'
+                    Set @Start_Time = GETDATE()
+                 Truncate table Bronze.crm_cust_info
+                 Print '>> inserting Data into: Bronze.crm_cust_info'
+                 Bulk Insert  Bronze.crm_cust_info
+                 from "C:\Users\User\Downloads\cust_info.csv"
+                 with (
+                      FirstRow = 2,
+                      FieldTerminator = ',',
+                      Tablock
+            )    Set @End_Time = GETDATE()
+             Print'>> Load Duration:' + Cast(DateDiff (Second,@Start_time,@End_time) as Nvarchar) +'Seconds'
+                 Set @Start_Time = GETDATE()
+            Truncate Table bronze.crm_prd_info
+            Print '>> inserting Data into: bronze.crm_prd_info'
+            Bulk insert bronze.crm_prd_info
+            from "C:\Users\User\Downloads\prd_info.csv"
+            with (
+                FirstRow = 2,
+                FieldTerminator = ',',
+                Tablock 
+            ) 
+                 Set @End_Time = GETDATE()
+             Print'>> Load Duration:' + Cast(DateDiff (Second,@Start_time,@End_time) as Nvarchar) +'Seconds'
+            Print '-----------------'
+
+            Set @Start_Time = GETDATE()
+            Truncate Table bronze.crm_sales_detailes 
+            Print '>> inserting Data into: bronze.crm_sales_detailes '
+            Bulk insert bronze.crm_sales_detailes 
+            from "C:\Users\User\Downloads\sales_details.csv"
+            with (
+                FirstRow = 2,
+                FieldTerminator = ',',
+                Tablock 
+            )
+                Set @End_Time = GETDATE()
+            Print'>> Load Duration:' + Cast(DateDiff (Second,@Start_time,@End_time) as Nvarchar) +'Seconds'
+
+            Print '----------------------------------------------'
+            Print'Loading CRM Tables'
+            Print '----------------------------------------------'
+                Set @Start_Time = GETDATE()
+            Truncate Table bronze.erp_cust_az12
+            Print '>> inserting Data into:bronze.erp_cust_az12 '
+            Bulk insert bronze.erp_cust_az12
+            from "C:\Users\User\Downloads\CUST_AZ12.csv"
+            with (
+                FirstRow = 2,
+                FieldTerminator = ',',
+                Tablock )
+              Set @End_Time = GETDATE()
+            Print'>> Load Duration:' + Cast(DateDiff (Second,@Start_time,@End_time) as Nvarchar) +'Seconds' 
+            Print'--------------------------'
+               Set @Start_Time = GETDATE()
+            Truncate Table bronze.erp_loc_a101
+            Bulk insert bronze.erp_loc_a101
+            from "C:\Users\User\Downloads\LOC_A101.csv"
+            with (
+              FirstRow = 2,
+              FieldTerminator = ',',
+              Tablock )
+                Set @End_Time = GETDATE()
+             Print'>> Load Duration:' + Cast(DateDiff (Second,@Start_time,@End_time) as Nvarchar) +'Seconds'  
+             Print'----------------------------'
+               Set @Start_Time = GETDATE()
+            Truncate Table bronze.erp_px_cat_giv2
+            Print '>> inserting Data into:bronze.erp_px_cat_giv2'
+            Bulk insert bronze.erp_px_cat_giv2
+            from "C:\Users\User\Downloads\PX_CAT_G1V2.csv"
+            with (
+               FirstRow = 2,
+               FieldTerminator = ',',
+               Tablock )
+                Set @Batch_End_Time = GETDATE()
+            Print'>> Load Duration:' + Cast(DateDiff (Second,@Batch_Start_time,@Batch_End_time) as Nvarchar) +'Seconds'
+            Print'>>============================'
+            Set @End_Time = GETDATE()
+            Print'Load bronze layer is completed'
+             Print'>> Total Load Duration:' + Cast(DateDiff (Second,@Start_time,@End_time) as Nvarchar) +'Seconds'
+
+           End Try
+              Begin Catch
+                Print '==========================================='
+                Print'Error Ocurred During Loading Bronze Layer'
+                Print'Error Message' + Error_Message()
+                Print'Error Message' + Cast(Error_Number() as Nvarchar)
+                Print'Error Message' + Cast(Error_State() as Nvarchar)
+                Print '==========================================='
+              End Catch
+            End 
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+           
