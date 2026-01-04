@@ -24,8 +24,15 @@ sls_price       int
 
   If OBJECT_ID ( 'silver.crm_cust_info','U') is not Null
    Drop Table  silver.crm_cust_info
-cst
-  
+cst_Id                   int,
+cst_key                  nvarchar(50),
+cst_firstname             nvarchar(50),
+cst_lastName             nvarchar(50),
+cst_marital_status        nvarchar  (50),
+cst_gndr                   nvarchar(50),
+cst_create_date            nvarchar(50),
+dwh_create_date            nvarchar(50)
+ 
   
   If OBJECT_ID ( 'Bronze.crm_sales_detailes','U') is not Null
    Drop Table  Bronze.crm_sales_detailes
