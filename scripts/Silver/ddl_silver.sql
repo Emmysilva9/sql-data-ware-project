@@ -32,7 +32,18 @@ cst_marital_status        nvarchar  (50),
 cst_gndr                   nvarchar(50),
 cst_create_date            nvarchar(50),
 dwh_create_date            nvarchar(50)
- 
+
+
+    If OBJECT_ID ( 'silver.crm_prd_info','U') is not Null
+  Drop Table  silver.crm_prd_info
+
+    create table Bronze.crm_prd_info (
+    prd_ID                INT,
+    prd_key               Nvarchar(50),
+    prd_NM                Nvarchar(50),
+    prd_cost              int,
+    prd_line               nvarchar(50),
+    prd_start_dt          datetime,
+    prd_end_dt            datetime
+    ) 
   
-  If OBJECT_ID ( 'Bronze.crm_sales_detailes','U') is not Null
-   Drop Table  Bronze.crm_sales_detailes
