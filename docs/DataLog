@@ -1,3 +1,16 @@
 1 gold.dim_customers
 . Purpose: Stores customer details  enriched with demographic and geographic data 
-.Column 
+.Columns:
+
+Column Name             Data_Type       Description 
+Customer_key             INT               Surrogate key uniquely identifying each customer record in the dimension table 
+Customer_id              INT               uniquely numerical identifer assigne to each customer 
+Customer_number          Nvarchar(50)      AplhaNumeric identifer repersenting the customer , used for tracking and referencing 
+First_Name               Nvarchar(50)        The customer's first name as recorded in the system 
+Last_Name                Nvarchar(50)       The customer last name or family name 
+Country                  Nvarchar(50)      The country of reidence for the customer for E.g UAE
+Marital_Status           Nvarchar(50)        The marital status of the customer for E.g (Single or Married or n/a)
+Gender                   Nvarchar(50)       The gender of the customer for e.g male,female,n/a
+BirthDate                Date               The date of birth of the custmer formatted as YYYY-MM-DD  e.g 2037-10-0
+Create_date              Date                The date and time when customers recorde was created in the system 
+
