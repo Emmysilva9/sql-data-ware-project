@@ -1,0 +1,10 @@
+-- find the youngest and oldest customer 
+select 
+min(birthdate) as oldest_customer,
+max(BirthDate) as youngest_customer,
+-- Birthday in years 
+Datediff(year,min(birthdate),max(BirthDate)) as Range_years,
+-- Get the age of the oldest customer
+DateDiff(year,min(BirthDate),GETDATE()) as oldest_age, 
+DateDiff(year,max(Birthdate),Getdate()) as youngest_age
+from gold.dim_customers
