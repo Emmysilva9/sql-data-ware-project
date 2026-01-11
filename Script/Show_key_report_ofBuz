@@ -1,0 +1,15 @@
+-- Generate a report that show all key metrics  of Business {in a Tabular form}
+
+Select 'Total Sales' as Measure_name, sum(sales_amount) as measure_value from Gold.fact_Sales
+ Union all 
+select 'Total Quantity', sum(quantity) from Gold.fact_Sales
+ Union all 
+select 'Average Price', Avg(price) as Avg_price from Gold.fact_Sales
+ Union all 
+ Select'Total Number of product' , count(product_name) as Total_products from Gold.dim_products
+ Union all
+ select'Total Number of Orders' , Count(Order_number) as Total_N0_Order from Gold.fact_Sales
+ Union all
+ select'Total_Number of Orders placed' ,count(product_key) as Total_customers from Gold.fact_Sales
+ Union all 
+ select'Total Number of customers', count(product_key) as Total_customers from Gold.fact_Sales
