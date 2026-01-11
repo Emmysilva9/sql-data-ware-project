@@ -1,0 +1,19 @@
+--           Comulative Analyasis
+-- calculate the total sale per month 
+-- and the running total of sale over time
+Select
+Order_date,
+Total_sales,
+Sum(Total_sales) over ( Order by Order_date) as Running_total_sales,
+Avg(Total_Avg) over ( Order by Order_date) as Running_total_Avg
+
+From
+(Select 
+Datetrunc(year,Order_date) as Order_date,
+Sum(sales_amount) as Total_sales , 
+Avg(price) as Total_Avg
+from gold.fact_sales
+where order_date is not null
+Group by Datetrunc(year,Order_date)
+
+)t
