@@ -1,0 +1,33 @@
+/* Analyze the yearly performance of a products by comparing their
+sales to both the average sales performance of the product and the previous year'sales */
+
+With yearly_Product_Sales As
+
+(select 
+Year(f.order_date) as Order_year,
+p.product_name,
+Sum(f.sales_amount) as Current_sales
+from gold.fact_sales f
+ left Join gold.dim_products p
+ On f.product_key = p.product_key
+ where f.order_date is not null
+ Group by Year(f.order_date),p.product_name
+ )
+ Select 
+ Order_year,
+ product_name,
+ Current_sales,
+ Avg(Current_sales) over( partition by product_name) as Avg_sales,
+ Current_sales - Avg(Current_sales) over( partition by product_name) as Diff_avg,
+ Case when  Current_sales - Avg(Current_sales) over( partition by product_name) > 0 then 'Above Avg'
+      when   Current_sales - Avg(Current_sales) over( partition by product_name) < 0 then 'Below Avg'
+ Else 'Avg'
+ End Avg_change ,
+ --Year -- Over-- year Analysis
+ Lag(Current_sales) over( partition by product_name order by order_year) as Py_sales,
+  Case when  Current_sales - lag(Current_sales) over( partition by product_name order by order_year) > 0 then 'Increase'
+      when   Current_sales - lag(Current_sales) over( partition by product_name order by order_year) < 0 then 'Decrease'
+ Else 'No chage'
+ End as Py_change 
+ from yearly_Product_Sales
+Order by product_name,Order_year
